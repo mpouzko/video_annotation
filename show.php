@@ -114,6 +114,29 @@
 
         }
     }
+    
+    function checkVisible(elm) {
+      var rect = elm.getBoundingClientRect();
+      var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+      return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+    }
+
+    function play_videos() {
+        if (videosReady< <?php echo $countvideos;?>) {alert ("not all the videos are loaded yet");return;}
+        
+        z = document.getElementsByTagName("video");
+        
+
+
+        for (i=0;i<z.length;i++) {
+            if (checkVisible(z[i])) {
+                z[i].play();
+            }
+
+        }
+
+    }
+/*
     function play_videos() {
         if (videosReady< <?php echo $countvideos;?>) {alert ("not all the videos are loaded yet");return;}
         z = document.getElementsByTagName("video");
@@ -122,7 +145,7 @@
             z[i].play();
         }
 
-    }
+    }*/
     function pause_videos() {
         z = document.getElementsByTagName("video");
 
@@ -141,7 +164,7 @@
         overflow:hidden;
         text-align: center;
         margin:10px;
-        
+
     }
     .container > div {
          

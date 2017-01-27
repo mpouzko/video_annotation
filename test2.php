@@ -1,0 +1,2 @@
+<?php
+echo file_get_contents("https://booking.com/searchresults.html?checkin_monthday=29&checkin_year_month=2017-1&checkout_monthday=30&checkout_year_month=2017-1&tab=&origin=hp&hp_avform=1&error_url=%2Fhotel%2Fru%2Fgala-plaza.ru.html%3F&do_availability_check=on&label=gen000nr-10CAsowgFCCmdhbGEtcGxhemFIIWIFbm9yZWZowgGIAQSYATO4AQPIAQPYAQPoAQH4AQGoAgE&lang=ru&no_redirect_check=1&dest_type=city&dest_id=-2935951&highlighted_hotels=249432&room1=A%2CA&no_rooms=1&group_adults=2&group_children=0");
