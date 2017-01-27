@@ -6,6 +6,7 @@
 </head>
 <body>
 <p>
+<a href="index.php">Back to config</a><br><br>
     <button onclick="play_videos();"> play videos </button>
     
     <button onclick="pause_videos();"> pause videos </button>

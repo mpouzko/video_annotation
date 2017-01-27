@@ -15,6 +15,13 @@
 <div class="container">
 
 <h3>Set the config</h3>
+<p>
+    <i>
+        Small note:<br>
+        Since we have a square-shaped tiles, the videos are scaled to fit tile by a smaller dimension. te video is centered in tile, and the rest is cropped. 
+
+    </i>
+</p>
 <form action="show.php" method="POST">
     <div class="form-group">
     <label>Items per row</label>
