@@ -2,17 +2,27 @@
 <html>
 <head>
 	<title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<!-- <script type="text/javascript" src="jquery-2.2.4.min.js"></script> -->
 </head>
-<body>
+<body style="padding:0 10px;">
 <p>
 <a href="index.php">Back to config</a><br><br>
-    <button onclick="play_videos();"> play videos </button>
+    <button class="btn btn-success" onclick="play_videos();"> play videos </button>
     
-    <button onclick="pause_videos();"> pause videos </button>
+    <button class="btn btn-warning" onclick="pause_videos();"> pause videos </button>
 
-    <label>Result</label><input type="text" id="result">
+    <label for="result">Result</label> <input class="form-control" style="width:200px;display: inline-block;" type="text" id="result">
 </p>
+
+<div style="position: fixed; left:auto; right:0; width:50px; top:0; background: rgba(0,0,0,.25);padding:10px;">
+     <button class="btn btn-success" onclick="play_videos();"> <span class="glyphicon glyphicon-play-circle"></span> </button>
+     <br>
+     <br>
+    
+    <button class="btn btn-warning" onclick="pause_videos();"><span class="glyphicon glyphicon-pause"></span> </button>
+
+</div>
 
 <?php
  /*
@@ -44,7 +54,7 @@
     $itemsPerRow = ((int)$_POST['itemsPerRow']<1) ? 4:(int)$_POST['itemsPerRow'];
     $itemSize = ((int)$_POST['itemWidth']<1) ? 320 : (int)$_POST['itemWidth']; 
     $videos = ($_POST['list'])?:file_get_contents(__DIR__."/video_example_urls.txt");
-    $limit = 48; // performance limit        
+    $limit = 20; // performance limit        
     $countvideos=0;
     $str = '';
     foreach (explode("\r\n",$videos) as $key => $value) {
@@ -73,6 +83,7 @@
 ?>
 <script type="text/javascript">
     var videosReady = 0;
+    var PLAY = false;
     /*var urls = [ <?php echo $str;?> ];
     urls.forEach(function(item, i, arr) {
         var v = document.getElementById("video"+i);
@@ -114,6 +125,17 @@
             }
 
         }
+
+        v.onplay =  function(){
+            console.log ("Video N"+x+" playing");
+        }
+        v.onpause =  function(){
+            console.log ("Video N"+x+" paused");
+        }
+        v.onended = function(){
+            console.log("Video N"+x+" reached the end (and started over)");
+            this.play();
+        }
     }
     
     function checkVisible(elm) {
@@ -124,10 +146,8 @@
 
     function play_videos() {
         if (videosReady< <?php echo $countvideos;?>) {alert ("not all the videos are loaded yet");return;}
-        
+        PLAY = true;
         z = document.getElementsByTagName("video");
-        
-
 
         for (i=0;i<z.length;i++) {
             if (checkVisible(z[i])) {
@@ -135,6 +155,7 @@
             }
 
         }
+
 
     }
 /*
@@ -149,11 +170,42 @@
     }*/
     function pause_videos() {
         z = document.getElementsByTagName("video");
-
         for (i=0;i<z.length;i++) {
             z[i].pause();
         }
+        PLAY = false;
     }
+
+
+
+
+
+ window.onscroll = function() {
+        if (!PLAY) {return;}
+        
+        z = document.getElementsByTagName("video");
+        for (i=0;i<z.length;i++) {
+            if (checkVisible(z[i])) {
+                z[i].play();
+                 
+            }
+            else {
+                z[i].pause();
+                         
+            } 
+
+        }
+
+ };
+
+
+      /*  z = document.getElementsByTagName("video");
+        
+        for (i=0;i<z.length;i++) {       
+     if (checkVisible(z[i])) {
+                z[i].play();
+            }
+        }*/
 </script>
 
 <style type="text/css">
