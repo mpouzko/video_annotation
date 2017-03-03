@@ -32,6 +32,10 @@
     <input class="form-control" type="number" name="itemWidth" value=320>
     </div>
     <div class="form-group">
+    <label>Performance limit (how many videos MAX will be loaded)</label>
+    <input class="form-control" type="number" name="performanceLimit" value=40>
+    </div>
+    <div class="form-group">
     <label>Custom videos list (separated by line-breaks)</label> 
     <textarea class="form-control" name="list" cols=80 rows=16></textarea>
     </div>

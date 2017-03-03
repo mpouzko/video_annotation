@@ -54,19 +54,22 @@
     $itemsPerRow = ((int)$_POST['itemsPerRow']<1) ? 4:(int)$_POST['itemsPerRow'];
     $itemSize = ((int)$_POST['itemWidth']<1) ? 320 : (int)$_POST['itemWidth']; 
     $videos = ($_POST['list'])?:file_get_contents(__DIR__."/video_example_urls.txt");
-    $limit = 20; // performance limit        
+    $limit = (int)$_POST['performanceLimit']>1 ?(int)$_POST['performanceLimit']:40; // performance limit        
     $countvideos=0;
     $str = '';
     foreach (explode("\r\n",$videos) as $key => $value) {
+        $value = trim($value);
+        if (strlen($value) < 5 ) continue;
         if ($key>($limit-1)) break;
         if (strlen($value)<1) break;
         $countvideos++;
 
+
 ?>
 <div class="container" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);">
     <div id="vc<?php echo $key;?>">
-                <video id="video<?php echo $key;?>" onCanPlay="video_ready(<?php echo $key;?>);" style='display:block' muted="true">
-                     <source src="<?php echo $value;?>" type="video/mp4">
+                <video id="video<?php echo $key;?>" onCanPlay="video_ready(<?php echo $key;?>);" style='display:block' muted="true" title="<?php echo basename($value); ?>">
+                     <source src="<?php echo $value;?>" type="video/mp4" onError = "video_error(this);">
                 </video>
                                
     </div>
@@ -81,6 +84,13 @@
     }
 }
 ?>
+<hr>
+
+<label>Selected items</label><br>
+<textarea readonly="readonly" cols=80 rows=10 id="items-list"></textarea>
+
+<label>Error items</label><br>
+<textarea readonly="readonly" cols=80 rows=10 id="errors-list"></textarea>
 <script type="text/javascript">
     var videosReady = 0;
     var PLAY = false;
@@ -92,21 +102,26 @@
     function select(key) {
         var target = document.getElementById("container"+key);
         var input = document.getElementById("result");
+        var list = document.getElementById("items-list");
+        var value = target.getElementsByTagName("source")[0].getAttribute("src"); 
+
         if ( target.classList.contains('active') ) {
                   target.classList.remove('active');
                   input.value = input.value.replace('['+key + '],',"");
+                  list.textContent = list.textContent.replace (value+"\n","");  
               }
         else {
             target.classList.add('active');
             input.value = input.value +'[' +key + '],';
+            list.textContent += (value+"\n");  
         }
     }
 
     function video_ready(x) {
         var l = document.getElementById("label"+x);
-        l.innerHTML="Ready";
-        videosReady++;
         var v = document.getElementById("video"+x);
+        l.innerHTML = v.getAttribute("title").length>1 ? v.getAttribute("title"):'Ready';
+        videosReady++;
         if (v.offsetWidth < v.offsetHeight) {
             v.width=<?php echo $itemSize; ?>;
             //center element
@@ -136,7 +151,17 @@
             console.log("Video N"+x+" reached the end (and started over)");
             this.play();
         }
+        if (PLAY) {
+            v.play();
+        }
     }
+
+    function video_error (obj) {
+        var textarea = document.getElementById("errors-list");
+        textarea.textContent += obj.getAttribute("src")+"\n";    
+        obj.parentElement.parentElement.parentElement.remove();
+    }
+
     
     function checkVisible(elm) {
       var rect = elm.getBoundingClientRect();
@@ -145,7 +170,7 @@
     }
 
     function play_videos() {
-        if (videosReady< <?php echo $countvideos;?>) {alert ("not all the videos are loaded yet");return;}
+        /*if (videosReady< <?php echo $countvideos;?>) {alert ("not all the videos are loaded yet");return;}*/
         PLAY = true;
         z = document.getElementsByTagName("video");
 
@@ -209,6 +234,9 @@
 </script>
 
 <style type="text/css">
+   .container label {
+        font-size:x-small;
+    }
     .container {
         display: inline-block;
         width:<?php echo $itemSize; ?>px;
