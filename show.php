@@ -57,40 +57,8 @@
     $limit = (int)$_POST['performanceLimit']>1 ?(int)$_POST['performanceLimit']:40; // performance limit        
     $countvideos=0;
     $str = '';
-    foreach (explode("\r\n",$videos) as $key => $value) {
-        $value = trim($value);
-        if (strlen($value) < 5 ) continue;
-        if ($key>($limit-1)) break;
-        if (strlen($value)<1) break;
-        $countvideos++;
+    ?>
 
-
-?>
-<div class="container" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);" onContextMenu="popup('<?php echo $value; ?>');">
-    <div id="vc<?php echo $key;?>">
-                <video id="video<?php echo $key;?>" onCanPlay="video_ready(<?php echo $key;?>);" style='display:block' muted="true" title="<?php echo basename($value); ?>">
-                     <source src="<?php echo $value;?>" type="video/mp4" onError = "video_error(this);">
-                </video>
-                               
-    </div>
-    <label id="label<?php echo $key;?>"></label>
-</div>            
-
-<?php
-    if (($key+1) % $itemsPerRow == 0) {
-        ?>
-        <br>
-        <?php
-    }
-}
-?>
-<hr>
-
-<label>Selected items</label><br>
-<textarea readonly="readonly" cols=80 rows=10 id="items-list"></textarea>
-
-<label>Error items</label><br>
-<textarea readonly="readonly" cols=80 rows=10 id="errors-list"></textarea>
 <script type="text/javascript">
     var videosReady = 0;
     var PLAY = false;
@@ -237,6 +205,45 @@
             }
         }*/
 </script>
+
+    <?php
+    foreach (explode("\r\n",$videos) as $key => $value) {
+        $value = trim($value);
+        if (strlen($value) < 5 ) continue;
+        if ($key>($limit-1)) break;
+        if (strlen($value)<1) break;
+        $countvideos++;
+
+
+?>
+
+
+<div class="container" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);" onContextMenu="popup('<?php echo $value; ?>');">
+    <div id="vc<?php echo $key;?>">
+                <video id="video<?php echo $key;?>" onCanPlay="video_ready(<?php echo $key;?>);" style='display:block' muted="true" title="<?php echo basename($value); ?>">
+                     <source src="<?php echo $value;?>" type="video/mp4" onError = "video_error(this);">
+                </video>
+                               
+    </div>
+    <label id="label<?php echo $key;?>"></label>
+</div>            
+
+<?php
+    if (($key+1) % $itemsPerRow == 0) {
+        ?>
+        <br>
+        <?php
+    }
+}
+?>
+<hr>
+
+<label>Selected items</label><br>
+<textarea readonly="readonly" cols=80 rows=10 id="items-list"></textarea>
+
+<label>Error items</label><br>
+<textarea readonly="readonly" cols=80 rows=10 id="errors-list"></textarea>
+
 
 <style type="text/css">
    .container label {
