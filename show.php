@@ -66,7 +66,7 @@
 
 
 ?>
-<div class="container" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);">
+<div class="container" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);" onContextMenu="popup('<?php echo $value; ?>');">
     <div id="vc<?php echo $key;?>">
                 <video id="video<?php echo $key;?>" onCanPlay="video_ready(<?php echo $key;?>);" style='display:block' muted="true" title="<?php echo basename($value); ?>">
                      <source src="<?php echo $value;?>" type="video/mp4" onError = "video_error(this);">
@@ -115,6 +115,11 @@
             input.value = input.value +'[' +key + '],';
             list.textContent += (value+"\n");  
         }
+    }
+
+    function popup(url) {
+        window.open( encodeURI(url), "_blank" );
+        return false;
     }
 
     function video_ready(x) {

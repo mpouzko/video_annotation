@@ -1,3 +1,6 @@
+v 1.4.1
+- feature added: when you click with RMB on tile, target file is opened in a new tab. 
+
 v 1.4
 - added performance limit parameter in config
 - added video error handling:  bad item is removed from gird, and
