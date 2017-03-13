@@ -212,6 +212,7 @@
         if (strlen($value) < 5 ) continue;
         if ($key>($limit-1)) break;
         if (strlen($value)<1) break;
+        if ( substr( $value, 0, 4 ) != "http" ) $value = "http://".$value;
         $countvideos++;
 
 
@@ -240,7 +241,7 @@
 
 <label>Selected items</label><br>
 <textarea readonly="readonly" cols=80 rows=10 id="items-list"></textarea>
-
+<br>
 <label>Error items</label><br>
 <textarea readonly="readonly" cols=80 rows=10 id="errors-list"></textarea>
 

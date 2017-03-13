@@ -1,3 +1,5 @@
+v 1.4.2
+- if video url has no http:// prefix, it is added automaticaly. 
 v 1.4.1
 - feature added: when you click with RMB on tile, target file is opened in a new tab. 
 
