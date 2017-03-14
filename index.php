@@ -18,7 +18,7 @@
 <p>
     <i>
         Small note:<br>
-        Since we have a square-shaped tiles, the videos are scaled to fit tile by a smaller dimension. te video is centered in tile, and the rest is cropped. 
+        Since tiles are squares, the videos are scaled to fit the smallest dimension. The videos are centered in each tile, and the rest is hidden out of view. 
 
     </i>
 </p>
@@ -29,11 +29,11 @@
     </div>
     <div class="form-group">
     <label>Item width</label>
-    <input class="form-control" type="number" name="itemWidth" value=320>
+    <input class="form-control" type="number" name="itemWidth" value=300>
     </div>
     <div class="form-group">
-    <label>Performance limit (how many videos MAX will be loaded)</label>
-    <input class="form-control" type="number" name="performanceLimit" value=40>
+    <label>Performance limit (how many videos will be loaded at most)</label>
+    <input class="form-control" type="number" name="performanceLimit" value=80>
     </div>
     <div class="form-group">
     <label>Custom videos list (separated by line-breaks)</label> 
