@@ -11,6 +11,9 @@
     input.form-control {
         width: 192px;
     }
+    select.form-control {
+        max-width:400px;
+    }
 </style>
 <div class="container">
 
@@ -18,7 +21,7 @@
 <p>
     <i>
         Small note:<br>
-        Since we have a square-shaped tiles, the videos are scaled to fit tile by a smaller dimension. te video is centered in tile, and the rest is cropped. 
+        Since we have a square-shaped tiles, the videos are scaled to fit tile by a smaller dimension. The video is centered in tile, and the rest is cropped. 
 
     </i>
 </p>
@@ -39,10 +42,19 @@
     <label>Custom videos list (separated by line-breaks)</label> 
     <textarea class="form-control" name="list" cols=80 rows=16></textarea>
     </div>
-    
-    
-    
-    
+    <div class="form-group">
+    <label>OR: use from file (*.txt)</label> <br>
+    <select name="fromFile" class="form-control" >
+        <?php
+            foreach (glob("*.txt") as $filename) {
+                ?>
+                    <option value="<?php echo $filename;?>"><?php echo $filename;?></option>
+                <?php
+            }
+        ?>
+    </select>
+    </div>
+
     <button class="btn btn-success" type="submit">Submit</button>
 </form>
 

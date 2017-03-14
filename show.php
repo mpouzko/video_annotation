@@ -53,7 +53,7 @@
 
     $itemsPerRow = ((int)$_POST['itemsPerRow']<1) ? 4:(int)$_POST['itemsPerRow'];
     $itemSize = ((int)$_POST['itemWidth']<1) ? 320 : (int)$_POST['itemWidth']; 
-    $videos = ($_POST['list'])?:file_get_contents(__DIR__."/video_example_urls.txt");
+    $videos = ($_POST['list'])?: file_get_contents(__DIR__."/{$_POST['fromFile']}");
     $limit = (int)$_POST['performanceLimit']>1 ?(int)$_POST['performanceLimit']:40; // performance limit        
     $countvideos=0;
     $str = '';
@@ -207,24 +207,21 @@
 </script>
 
     <?php
-    foreach (explode("\r\n",$videos) as $key => $value) {
+    foreach (explode("\n",$videos) as $key => $value) {
         $value = trim($value);
         if (strlen($value) < 5 ) continue;
         if ($key>($limit-1)) break;
         if (strlen($value)<1) break;
         if ( substr( $value, 0, 4 ) != "http" ) $value = "http://".$value;
+        
         $countvideos++;
-
-
 ?>
-
 
 <div class="container" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);" onContextMenu="popup('<?php echo $value; ?>');">
     <div id="vc<?php echo $key;?>">
                 <video id="video<?php echo $key;?>" onCanPlay="video_ready(<?php echo $key;?>);" style='display:block' muted="true" title="<?php echo basename($value); ?>">
                      <source src="<?php echo $value;?>" type="video/mp4" onError = "video_error(this);">
                 </video>
-                               
     </div>
     <label id="label<?php echo $key;?>"></label>
 </div>            

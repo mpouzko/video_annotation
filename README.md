@@ -1,5 +1,10 @@
+v 1.5
+- in config section (index.php) you can choose source list from one of .txt files located in script folder. Just add some txt files into script folder to provide additional datasources. 
+- some bugfix 
+
 v 1.4.2
 - if video url has no http:// prefix, it is added automaticaly. 
+
 v 1.4.1
 - feature added: when you click with RMB on tile, target file is opened in a new tab. 
 
