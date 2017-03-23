@@ -62,6 +62,7 @@
 <script type="text/javascript">
     var videosReady = 0;
     var PLAY = false;
+    var itemsPerRow = <?php echo $itemsPerRow;?>
     /*var urls = [ <?php echo $str;?> ];
     urls.forEach(function(item, i, arr) {
         var v = document.getElementById("video"+i);
@@ -131,8 +132,33 @@
 
     function video_error (obj) {
         var textarea = document.getElementById("errors-list");
-        textarea.textContent += obj.getAttribute("src")+"\n";    
+        
+        textarea.textContent += obj.getAttribute("src")+"\n";  
+
         obj.parentElement.parentElement.parentElement.remove();
+        
+        br = [];
+        if (PLAY) {
+            pause_videos();
+            PLAY = true;
+        }
+        var grid = document.getElementById("grid");
+        //grid.innerHTML = grid.innerHTML.replace(/\<br\>/g,"");
+        var children = document.querySelectorAll('#grid > br');
+        for (i=0; i < children.length; i++) {
+             children[i].remove();  
+        }
+        var children = document.querySelectorAll('#grid > *');
+        for (i=0; i < children.length; i++) {
+            if ( ( (i+1) % itemsPerRow ) == 0 ) {
+              br[i] = document.createElement("br");  
+              grid.insertBefore( br[i], children[i+1] );
+            }
+        }
+        if (PLAY) {
+            play_videos();
+            
+        }
     }
 
     
@@ -148,7 +174,7 @@
         z = document.getElementsByTagName("video");
 
         for (i=0;i<z.length;i++) {
-            if (checkVisible(z[i])) {
+            if ( checkVisible(z[i]) && z[i].paused ) {
                 z[i].play();
             }
 
@@ -205,7 +231,7 @@
             }
         }*/
 </script>
-
+<div id="grid">
     <?php
     foreach (explode("\n",$videos) as $key => $value) {
         $value = trim($value);
@@ -219,7 +245,7 @@
 
 <div class="container" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);" onContextMenu="popup('<?php echo $value; ?>');">
     <div id="vc<?php echo $key;?>">
-                <video id="video<?php echo $key;?>" onCanPlay="video_ready(<?php echo $key;?>);" style='display:block' muted="true" title="<?php echo basename($value); ?>">
+                <video id="video<?php echo $key;?>" oncanplaythrough="video_ready(<?php echo $key;?>);" style='display:block' muted="true" title="<?php echo basename($value); ?>">
                      <source src="<?php echo $value;?>" type="video/mp4" onError = "video_error(this);">
                 </video>
     </div>
@@ -234,6 +260,8 @@
     }
 }
 ?>
+
+</div>
 <hr>
 
 <label>Selected items</label><br>

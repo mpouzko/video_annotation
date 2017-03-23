@@ -1,3 +1,6 @@
+v 1.6
+- when error tiles are removed, grid is rearranged to exclude empty cells. 
+
 v 1.5
 - in config section (index.php) you can choose source list from one of .txt files located in script folder. Just add some txt files into script folder to provide additional datasources. 
 - some bugfix 
