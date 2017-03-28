@@ -20,7 +20,7 @@
 <h3>Set the config</h3>
 <p>
     <i>
-        Small note:<br>
+        Note:<br>
 
         Since tiles are squares, the videos are scaled to fit the smallest dimension. The videos are centered in each tile, and the rest is hidden out of view. 
 

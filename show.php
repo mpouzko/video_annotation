@@ -76,12 +76,12 @@
 
         if ( target.classList.contains('active') ) {
                   target.classList.remove('active');
-                  input.value = input.value.replace('['+key + '],',"");
+                  input.value = input.value.replace(key + ' ',"");
                   list.textContent = list.textContent.replace (value+"\n","");  
               }
         else {
             target.classList.add('active');
-            input.value = input.value +'[' +key + '],';
+            input.value = input.value + key + ' ';
             list.textContent += (value+"\n");  
         }
     }
