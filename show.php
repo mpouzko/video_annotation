@@ -3,7 +3,6 @@
 <head>
 	<title></title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<!-- <script type="text/javascript" src="jquery-2.2.4.min.js"></script> -->
 </head>
 <body style="padding:0 10px;">
 <p>
@@ -25,38 +24,14 @@
 </div>
 
 <?php
- /*
- if ($_POST) {
-   //var_dump($_POST);
-    //var_dump($_FILES);
-    if (!$_POST['items-per-row'] || !$_POST['item-width'] || !$_FILES['ufile'] ) {
-        echo "ERROR form";
-        die; 
-    }
-
-    
-    $uploadfile = __DIR__ . "/" . basename($_FILES['ufile']['name']);
-    
-
-     if ( move_uploaded_file($_FILES['ufile']['tmp_name'], $uploadfile) ) {
-        echo "ok";
-    } else {
-        echo "ERROR file";
-        die; 
-    }
-
- }
-*/  
-   
-
     //set defaults
-
     $itemsPerRow = ((int)$_POST['itemsPerRow']<1) ? 4:(int)$_POST['itemsPerRow'];
     $itemSize = ((int)$_POST['itemWidth']<1) ? 320 : (int)$_POST['itemWidth']; 
     $videos = ($_POST['list'])?: file_get_contents(__DIR__."/{$_POST['fromFile']}");
     $limit = (int)$_POST['performanceLimit']>1 ?(int)$_POST['performanceLimit']:40; // performance limit        
     $countvideos=0;
     $str = '';
+    $gridWidth = $itemsPerRow * ( $itemSize + 20 );
     ?>
 
 <script type="text/javascript">
@@ -92,6 +67,8 @@
     }
 
     function video_ready(x) {
+        var c = document.getElementById("container"+x);
+        c.classList.remove("hidden");
         var l = document.getElementById("label"+x);
         var v = document.getElementById("video"+x);
         l.innerHTML = v.getAttribute("title").length>1 ? v.getAttribute("title"):'Ready';
@@ -182,16 +159,7 @@
 
 
     }
-/*
-    function play_videos() {
-        if (videosReady< <?php echo $countvideos;?>) {alert ("not all the videos are loaded yet");return;}
-        z = document.getElementsByTagName("video");
 
-        for (i=0;i<z.length;i++) {
-            z[i].play();
-        }
-
-    }*/
     function pause_videos() {
         z = document.getElementsByTagName("video");
         for (i=0;i<z.length;i++) {
@@ -231,7 +199,8 @@
             }
         }*/
 </script>
-<div id="grid">
+
+<div class="clearfix" id="grid" style="width: <?php echo $gridWidth;?>px;clear:both;" >
     <?php
     foreach (explode("\n",$videos) as $key => $value) {
         $value = trim($value);
@@ -243,7 +212,7 @@
         $countvideos++;
 ?>
 
-<div class="container" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);" onContextMenu="popup('<?php echo $value; ?>');">
+<div class="container hidden" id="container<?php echo $key;?>" onClick="select(<?php echo $key;?>);" onContextMenu="popup('<?php echo $value; ?>');">
     <div id="vc<?php echo $key;?>">
                 <video id="video<?php echo $key;?>" oncanplaythrough="video_ready(<?php echo $key;?>);" style='display:block' muted="true" title="<?php echo basename($value); ?>">
                      <source src="<?php echo $value;?>" type="video/mp4" onError = "video_error(this);">
@@ -251,17 +220,15 @@
     </div>
     <label id="label<?php echo $key;?>"></label>
 </div>            
-
-<?php
-    if (($key+1) % $itemsPerRow == 0) {
-        ?>
-        <br>
+ 
         <?php
-    }
-}
+    }  
+
 ?>
 
 </div>
+ 
+
 <hr>
 
 <label>Selected items</label><br>
@@ -283,7 +250,7 @@
         overflow:hidden;
         text-align: center;
         margin:10px;
-
+        float:left;
     }
     .container > div {
          
@@ -298,6 +265,11 @@
     .container.active {
         background: #ffe500;
     }
+
+    .hidden {
+        display: none;
+    }
+    
 </style>
 </body>
 </html>
